@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ITNIG Triage Inbox</title>
+  " />
+</head>
+<body>
+  <header>
+    <h1>ITNIG Triage Inbox</h1>
+    <a href="setup.html" class="btn-secondary">⚙ Setup</a>
+  </header>
+
+  <p class="notice">
+    Results appear in your <strong>Netlify Function logs</strong>.<br/>
+    Go to: de>Netlify → itnig-triage → Functions → triage → Logs</code>
+  </p>
+
+  <div class="card">
+    <h2>How it works</h2>
+    <ol>
+      >Founder fills your Tally form</li>
+      >Tally sends a webhook to de>/triage</code></li>
+      >The function scores the founder (GitHub, Apollo)</li>
+      >Score + signals appear in Netlify Function logs</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Test the endpoint</h2>
+    <button onclick="testEndpoint()">Send test submission</button>
+    <pre id="result">—</pre>
+  </div>
+
+  <script>
+    async function testEndpoint() {
+      document.getElementById("result").textContent = "Sending...";
+      try {
+        const res = await fetch("/triage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            data: {
+              fields: [
+                { label: "Name",    value: "Test Founder" },
+                { label: "Email",   value: "test@example.com" },
+                { label: "Company", value: "Stealth Inc" },
+                { label: "Website", value: "https://example.com" },
+                { label: "GitHub",  value: "https://github.com/torvalds" },
+                { label: "Idea",    value: "An AI-powered platform for B2B lead generation with deep signals from GitHub, LinkedIn, and Product Hunt." }
+              ]
+            }
+          })
+        });
+        const json = await res.json();
+        document.getElementById("result").textContent = JSON.stringify(json, null, 2);
+      } catch (e) {
+        document.getElementById("result").textContent = "Error: " + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
