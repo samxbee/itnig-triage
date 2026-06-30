@@ -1,0 +1,9 @@
+[build]
+  publish = "frontend"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/triage"
+  to = "/.netlify/functions/triage"
+  status = 200
+  force = true
