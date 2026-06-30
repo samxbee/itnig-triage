@@ -1,44 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <title>ITNIG Triage — Setup</title>
-  "/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Itnig Triage — Setup</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+           background: #0f0f0f; color: #f0f0f0; min-height: 100vh;
+           display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px;
+            width: 100%; max-width: 560px; padding: 36px; }
+    h1 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+    .subtitle { color: #888; font-size: 14px; margin-bottom: 32px; }
+    .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+                     color: #555; text-transform: uppercase; margin: 24px 0 12px; }
+    .field { margin-bottom: 14px; }
+    .field-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .field-name { font-size: 14px; font-weight: 500; }
+    .field-hint { font-size: 12px; color: #666; margin-top: 4px; }
+    .input-row { display: flex; gap: 8px; }
+    input[type="text"], input[type="password"] {
+      flex: 1; background: #111; border: 1px solid #333; border-radius: 8px;
+      padding: 10px 14px; color: #f0f0f0; font-size: 14px; outline: none;
+      transition: border-color 0.2s; }
+    input:focus { border-color: #555; }
+    .btn-test { background: #222; border: 1px solid #333; border-radius: 8px;
+                color: #ccc; font-size: 13px; padding: 10px 16px; cursor: pointer;
+                white-space: nowrap; transition: all 0.2s; }
+    .btn-test:hover { background: #2a2a2a; border-color: #444; }
+    .btn-test.ok  { border-color: #22c55e; color: #22c55e; }
+    .btn-test.err { border-color: #ef4444; color: #ef4444; }
+    .status { font-size: 12px; margin-top: 4px; min-height: 16px; }
+    .status.ok  { color: #22c55e; }
+    .status.err { color: #ef4444; }
+    .divider { border: none; border-top: 1px solid #2a2a2a; margin: 24px 0; }
+    .btn-save { width: 100%; background: #fff; color: #000; border: none;
+                border-radius: 8px; padding: 14px; font-size: 15px; font-weight: 600;
+                cursor: pointer; margin-top: 28px; transition: opacity 0.2s; }
+    .btn-save:hover { opacity: 0.88; }
+    .btn-save:disabled { opacity: 0.3; cursor: not-allowed; }
+    .badge { font-size: 10px; padding: 2px 7px; border-radius: 20px;
+             font-weight: 600; letter-spacing: 0.04em; }
+    .badge.req { background: #1a3a2a; color: #22c55e; }
+    .badge.opt { background: #2a2a1a; color: #a0a020; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Setup — API Keys</h1>
-    <a href="index.html" class="btn-secondary">← Inbox</a>
-  </header>
+<div class="card">
+  <h1>Itnig Triage — Setup</h1>
+  <p class="subtitle">Paste your API keys below. Required keys enable core triage. Optional keys improve scoring accuracy.</p>
 
-  <div class="card">
-    <h2>Where to add your keys</h2>
-    <p>Netlify Functions read keys from <strong>environment variables</strong>. You set them here:</p>
-    <ol>
-      >Go to <strong>Netlify → itnig-triage → Site configuration → Environment variables</strong></li>
-      >Add each key below</li>
-      >Redeploy once — keys are live instantly after that</li>
-    </ol>
+  <div class="section-label">Required — Free accounts</div>
 
-    <table>
-      <thead><tr><th>Variable name</th><th>Where to get it</th></tr></thead>
-      <tbody>
-        <tr><td>de>GITHUB_TOKEN</code></td><td><a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a> → Generate new token (classic) → read:user, public_repo</td></tr>
-        <tr><td>de>APOLLO_KEY</code></td><td><a href="https://app.apollo.io/#/settings/integrations/api" target="_blank">app.apollo.io → Settings → API</a></td></tr>
-        <tr><td>de>REDDIT_TOKEN</code></td><td><a href="https://www.reddit.com/prefs/apps" target="_blank">reddit.com/prefs/apps</a> → Create app → script type</td></tr>
-        <tr><td>de>PH_TOKEN</code></td><td><a href="https://api.producthunt.com/v2/oauth/applications" target="_blank">api.producthunt.com</a> → Create application</td></tr>
-      </tbody>
-    </table>
+  <div class="field">
+    <div class="field-header">
+      <span class="field-name">GitHub Token</span>
+      <span class="badge req">Required</span>
+    </div>
+    <div class="input-row">
+      <input type="password" id="GITHUB_TOKEN" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+      <button class="btn-test" onclick="test('GITHUB_TOKEN')">Test</button>
+    </div>
+    <div class="status" id="status_GITHUB_TOKEN"></div>
+    <div class="field-hint">github.com/settings/tokens → Generate new token (classic) → no scopes needed</div>
   </div>
 
-  <div class="card">
-    <h2>Tally webhook URL</h2>
-    <p>Paste this into Tally → Integrations → Webhooks:</p>
-    de id="webhook-url"></code>
-    <script>
-      document.getElementById("webhook-url").textContent =
-        window.location.origin + "/triage";
-    </script>
+  <div class="field">
+    <div class="field-header">
+      <span class="field-name">Reddit Client ID + Secret</span>
+      <span class="badge req">Required</span>
+    </div>
+    <div class="input-row">
+      <input type="password" id="REDDIT_CLIENT_ID" placeholder="Client ID" />
+      <input type="password" id="REDDIT_SECRET" placeholder="Secret" />
+    </div>
+    <div class="status" id="status_REDDIT_CLIENT_ID"></div>
+    <div class="field-hint">reddit.com/prefs/apps → Create app → Script type</div>
   </div>
+
+  <div class="field">
+    <div class="field-header">
+      <span class="field-name">Product Hunt Token</span>
+      <span class="badge req">Required</span>
+    </div>
+    <div class="input-row">
+      <input type="password" id="PH_TOKEN" placeholder="producthunt token..." />
+      <button class="btn-test" onclick="test('PH_TOKEN')">Test</button>
+    </div>
+    <div class="status" id="status_PH_TOKEN"></div>
+    <div class="field-hint">producthunt.com/v2/oauth/applications → New application → Developer Token</div>
+  </div>
+
+  <div class="field">
+    <div class="field-header">
+      <span class="field-name">Apollo.io API Key</span>
+      <span class="badge req">Required</span>
+    </div>
+    <div class="input-row">
+      <input type="password" id="APOLLO_KEY" placeholder="apollo api key..." />
+      <button class="btn-test" onclick="test('APOLLO_KEY')">Test</button>
+    </div>
+    <div class="status" id="status_APOLLO_KEY"></div>
+    <div class="field-hint">apollo.io → Settings → Integrations → API keys — 100 free credits/day</div>
+  </div>
+
+  <hr class="divider" />
+  <div class="section-label">Optional — Better results</div>
+
+  <div class="field">
+    <div class="field-header">
+      <span class="field-name">Proxycurl Key</span>
+      <span class="badge opt">Optional</span>
+    </div>
+    <div class="input-row">
+      <input type="password" id="PROXYCURL_KEY" placeholder="proxycurl key..." />
+      <button class="btn-test" onclick="test('PROXYCURL_KEY')">Test</button>
+    </div>
+    <div class="status" id="status_PROXYCURL_KEY"></div>
+    <div class="field-hint">proxycurl.com → ~$0.02/call → Enables LinkedIn company checks</div>
+  </div>
+
+  <div class="field">
+    <div class="field-header">
+      <span class="field-name">Crunchbase API Key</span>
+      <span class="badge opt">Optional</span>
+    </div>
+    <div class="input-row">
+      <input type="password" id="CRUNCHBASE_KEY" placeholder="crunchbase key..." />
+      <button class="btn-test" onclick="test('CRUNCHBASE_KEY')">Test</button>
+    </div>
+    <div class="status" id="status_CRUNCHBASE_KEY"></div>
+    <div class="field-hint">data.crunchbase.com → $29/mo Basic → Enables funding round verification</div>
+  </div>
+
+  <button class="btn-save" onclick="saveKeys()">Save & Launch Inbox →</button>
+</div>
+
+<script>
+  const BACKEND = "/.netlify/functions/triage";
+
+  async function test(key) {
+    const val = document.getElementById(key)?.value?.trim();
+    const btn = document.querySelector(`button[onclick="test('${key}')"]`);
+    const status = document.getElementById(`status_${key}`);
+    if (!val) { status.textContent = "Paste a key first"; status.className = "status err"; return; }
+    btn.textContent = "Testing...";
+    try {
+      const res = await fetch(`${BACKEND}?test=${key}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ test_key: key, test_value: val })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        btn.textContent = "✓ Connected"; btn.className = "btn-test ok";
+        status.textContent = data.message || "Connected successfully";
+        status.className = "status ok";
+        localStorage.setItem(key, val);
+      } else {
+        btn.textContent = "✗ Failed"; btn.className = "btn-test err";
+        status.textContent = data.error || "Invalid key";
+        status.className = "status err";
+      }
+    } catch {
+      btn.textContent = "✗ Error"; btn.className = "btn-test err";
+      status.textContent = "Could not reach backend";
+      status.className = "status err";
+    }
+  }
+
+  function saveKeys() {
+    const keys = ["GITHUB_TOKEN","REDDIT_CLIENT_ID","REDDIT_SECRET",
+                  "PH_TOKEN","APOLLO_KEY","PROXYCURL_KEY","CRUNCHBASE_KEY"];
+    keys.forEach(k => {
+      const val = document.getElementById(k)?.value?.trim();
+      if (val) localStorage.setItem(k, val);
+    });
+    window.location.href = "/index.html";
+  }
+
+  // Pre-fill from localStorage if returning
+  ["GITHUB_TOKEN","REDDIT_CLIENT_ID","REDDIT_SECRET",
+   "PH_TOKEN","APOLLO_KEY","PROXYCURL_KEY","CRUNCHBASE_KEY"].forEach(k => {
+    const saved = localStorage.getItem(k);
+    const el = document.getElementById(k);
+    if (saved && el) el.value = saved;
+  });
+</script>
 </body>
 </html>
