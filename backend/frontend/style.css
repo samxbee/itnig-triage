@@ -1,0 +1,16 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e5e5e5; padding: 2rem; }
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+h1 { font-size: 1.5rem; font-weight: 700; }
+h2 { font-size: 1.1rem; margin-bottom: 1rem; color: #a3e635; }
+.card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
+.btn-secondary { background: #2a2a2a; color: #e5e5e5; text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; }
+button { background: #a3e635; color: #000; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 0.5rem; }
+pre { background: #0f0f0f; padding: 1rem; border-radius: 6px; margin-top: 1rem; font-size: 0.85rem; white-space: pre-wrap; }
+code { background: #2a2a2a; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9rem; }
+ol, ul { padding-left: 1.5rem; line-height: 2; }
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { text-align: left; padding: 0.6rem; border-bottom: 1px solid #2a2a2a; font-size: 0.9rem; }
+th { color: #a3a3a3; }
+a { color: #a3e635; }
+.notice { background: #1a2a0a; border: 1px solid #a3e635; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; line-height: 1.8; }
